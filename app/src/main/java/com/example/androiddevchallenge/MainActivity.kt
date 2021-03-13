@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun MyApp() {
     Surface(color = MaterialTheme.colors.background) {
-        WelcomePage(
+        LoginPage(
             onSignup = {},
             onLogin = {}
         )
@@ -61,7 +61,7 @@ fun LightPreview() {
 @Preview("Dark Theme", widthDp = 360, heightDp = 640, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun DarkPreview() {
-    MyTheme {
+    MyTheme(darkTheme = true) {
         MyApp()
     }
 }
