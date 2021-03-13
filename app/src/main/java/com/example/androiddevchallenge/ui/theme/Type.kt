@@ -20,20 +20,19 @@ import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.intl.LocaleList
-import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.sp
 import com.example.androiddevchallenge.R
 
 // Set of Material typography styles to start with
 
 val kulimParkFamily = FontFamily(
-    Font(R.font.kulim_park_light, FontWeight.Light),
-    Font(R.font.kulim_park_regular, FontWeight.Normal)
+    Font(resId = R.font.kulim_park_light, weight = FontWeight.Light),
+    Font(resId = R.font.kulim_park_regular, weight = FontWeight.Normal)
 )
 
 val latoFamily = FontFamily(
-    Font(R.font.lato_bold, FontWeight.Bold),
-    Font(R.font.lato_regular, FontWeight.Normal)
+    Font(resId = R.font.lato_bold, weight = FontWeight.Bold),
+    Font(resId = R.font.lato_regular, weight = FontWeight.Normal)
 )
 
 val typography = Typography(
