@@ -8,10 +8,11 @@ Simple three screens application build with Jetpack Compose
 
 ## :bulb: Motivation and Context
 I took my time to learn more on Jetpack Compose while building this challenge
-Some key things I will need to look up more:
+
+Some key points that I will need to look up to learn more about:
 - In Preview of Dark Mode, should we always add both
-    - `uiMode = Configuration.UI_MODE_NIGHT_YES` to 'Preview'
-    - and 'darkTheme = true' to MyTheme ?
+    - `uiMode = Configuration.UI_MODE_NIGHT_YES` to `@Preview`
+    - and `darkTheme = true` to `MyTheme` ?
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
