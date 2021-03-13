@@ -15,29 +15,72 @@
  */
 package com.example.androiddevchallenge.ui.theme
 
+import android.text.method.TextKeyListener
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.*
+import androidx.compose.ui.text.intl.LocaleList
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.sp
+import com.example.androiddevchallenge.R
 
 // Set of Material typography styles to start with
+
+val kulimParkFamily = FontFamily(
+    Font(R.font.KulimPark_Light, FontWeight.Light),
+    Font(R.font.KulimPark_Regular, FontWeight.Normal)
+)
+
+val latoFamily = FontFamily(
+    Font(R.font.Lato_Bold, FontWeight.Bold),
+    Font(R.font.Lato_Regular, FontWeight.Normal)
+)
+
 val typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
-        /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
+
+    h1 = TextStyle(
+        fontFamily = kulimParkFamily,
+        fontWeight = FontWeight.Light,
+        fontSize = 28.sp,
+        letterSpacing = 1.15.sp
     ),
-    caption = TextStyle(
-        fontFamily = FontFamily.Default,
+
+    h2 = TextStyle(
+        fontFamily = kulimParkFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+        fontSize = 15.sp,
+        letterSpacing = 1.15.sp,
+        localeList = LocaleList(TextKeyListener.Capitalize.CHARACTERS.toString())
+    ),
+
+    h3 = TextStyle(
+        fontFamily = latoFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        letterSpacing = 0.sp
+    ),
+
+    body1 = TextStyle(
+        fontFamily = latoFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        letterSpacing = 0.sp
+    ),
+
+    button = TextStyle(
+        fontFamily = latoFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        letterSpacing = 1.15.sp,
+        localeList = LocaleList(TextKeyListener.Capitalize.CHARACTERS.toString())
+    ),
+
+    caption = TextStyle(
+        fontFamily = kulimParkFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        letterSpacing = 1.15.sp,
+        localeList = LocaleList(TextKeyListener.Capitalize.CHARACTERS.toString())
     )
-    */
+
 )
