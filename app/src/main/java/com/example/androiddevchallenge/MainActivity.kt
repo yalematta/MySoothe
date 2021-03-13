@@ -12,15 +12,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,9 +29,16 @@ import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
+import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +46,9 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             MyTheme {
-                MyApp()
+                ProvideWindowInsets {
+                    MyApp()
+                }
             }
         }
     }
@@ -51,10 +57,31 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun MyApp() {
     Surface(color = MaterialTheme.colors.background) {
-        LoginPage(
-            onSignup = {},
-            onLogin = {}
-        )
+        val navController = rememberNavController()
+        NavHost(navController, startDestination = "welcome") {
+            composable("welcome") {
+                WelcomePage(
+                    onSignup = {},
+                    onLogin = {
+                        navController.navigate("login")
+                    }
+                )
+            }
+            composable("login") {
+                LoginPage(
+                    onLogin = {
+                        navController.navigate("home") {
+                            popUpTo = navController.graph.startDestination
+                            launchSingleTop = true
+                        }
+                    },
+                    onSignup = {}
+                )
+            }
+            composable("home") {
+                HomePage()
+            }
+        }
     }
 }
 
@@ -62,7 +89,9 @@ fun MyApp() {
 @Composable
 fun LightPreview() {
     MyTheme {
-        MyApp()
+        ProvideWindowInsets {
+            MyApp()
+        }
     }
 }
 
@@ -70,7 +99,9 @@ fun LightPreview() {
 @Composable
 fun DarkPreview() {
     MyTheme(darkTheme = true) {
-        MyApp()
+        ProvideWindowInsets {
+            MyApp()
+        }
     }
 }
 
@@ -223,7 +254,11 @@ fun LoginPage(onLogin: () -> Unit, onSignup: () -> Unit) {
 
         ClickableText(
             text = annotatedString,
-            style = MaterialTheme.typography.body1.copy(color = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)),
+            style = MaterialTheme.typography.body1.copy(
+                color = LocalContentColor.current.copy(
+                    alpha = LocalContentAlpha.current
+                )
+            ),
             modifier = Modifier.paddingFromBaseline(top = 32.dp),
             onClick = { offset ->
                 annotatedString
@@ -298,8 +333,51 @@ fun HomePagePreview() {
 
 @Composable
 fun HomePage() {
-    Surface(color = MaterialTheme.colors.background) {
-        LazyColumn {
+    Scaffold(
+        bottomBar = @Composable {
+            InsetsAwareBottomNavigation(
+                backgroundColor = MaterialTheme.colors.background
+            ) {
+                BottomNavigationItem(
+                    selected = true,
+                    onClick = {},
+                    icon = @Composable {
+                        SmallIcon(resId = R.drawable.ic_spa)
+                    },
+                    label = @Composable {
+                        Text(stringResource(id = R.string.cd_nav_home).toUpperCase(LocaleList.current))
+                    }
+                )
+                BottomNavigationItem(
+                    selected = false,
+                    onClick = {},
+                    icon = @Composable {
+                        SmallIcon(resId = R.drawable.ic_account)
+                    },
+                    label = @Composable {
+                        Text(stringResource(id = R.string.cd_nav_profile).toUpperCase(LocaleList.current))
+                    }
+                )
+            }
+        },
+        floatingActionButton = @Composable {
+            FloatingActionButton(
+                onClick = {},
+                backgroundColor = MaterialTheme.colors.primary,
+                elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_play),
+                    contentDescription = stringResource(id = R.string.cd_action_play)
+                )
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        isFloatingActionButtonDocked = true
+    ) { innerPadding ->
+        LazyColumn(
+            contentPadding = innerPadding
+        ) {
             item {
                 SearchField()
             }
@@ -319,6 +397,28 @@ fun HomePage() {
     }
 }
 
+@Composable
+fun InsetsAwareBottomNavigation(
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = MaterialTheme.colors.primarySurface,
+    contentColor: Color = contentColorFor(backgroundColor),
+    elevation: Dp = BottomNavigationDefaults.Elevation,
+    content: @Composable RowScope.() -> Unit
+) {
+    Surface(
+        modifier = modifier,
+        color = backgroundColor,
+        elevation = elevation,
+    ) {
+        BottomAppBar(
+            modifier = Modifier.navigationBarsPadding(),
+            backgroundColor = Color.Transparent,
+            contentColor = contentColor,
+            elevation = 0.dp,
+            content = content,
+        )
+    }
+}
 
 @Composable
 fun CollectionCard(
@@ -396,7 +496,7 @@ fun SearchField() {
 }
 
 @Composable
-fun RowTitle(title: String){
+fun RowTitle(title: String) {
     Text(
         text = title.toUpperCase(LocaleList.current),
         style = MaterialTheme.typography.h2,
@@ -408,7 +508,7 @@ fun RowTitle(title: String){
 }
 
 @Composable
-fun RowFavorite(){
+fun RowFavorite() {
     LazyRow(
         contentPadding = PaddingValues(start = 16.dp)
     ) {
