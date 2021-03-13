@@ -27,13 +27,13 @@ import com.example.androiddevchallenge.R
 // Set of Material typography styles to start with
 
 val kulimParkFamily = FontFamily(
-    Font(R.font.KulimPark_Light, FontWeight.Light),
-    Font(R.font.KulimPark_Regular, FontWeight.Normal)
+    Font(R.font.kulim_park_light, FontWeight.Light),
+    Font(R.font.kulim_park_regular, FontWeight.Normal)
 )
 
 val latoFamily = FontFamily(
-    Font(R.font.Lato_Bold, FontWeight.Bold),
-    Font(R.font.Lato_Regular, FontWeight.Normal)
+    Font(R.font.lato_bold, FontWeight.Bold),
+    Font(R.font.lato_regular, FontWeight.Normal)
 )
 
 val typography = Typography(
